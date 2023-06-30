@@ -1,1 +1,1 @@
-Esta é uma simples demo clone do jogo da cobrinha em html/js. 
+Esta é uma simples demo em alpha de um clone do jogo da cobrinha em html/js. 
