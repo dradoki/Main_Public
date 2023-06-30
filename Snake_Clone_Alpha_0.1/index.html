@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Clone</title>
+</head>
+<body>
+
+    <canvas id="stage" width="600px" height="600px"></canvas>
+    <script type="text/javascript">
+
+        window.onload = function() 
+        {
+            var stage = document.getElementById('stage');
+            var context = stage.getContext("2d");
+            document.addEventListener("keydown", keyPush);
+
+            setInterval(game, 60);
+
+            const velocity = 1;
+
+            var velocityx = velocityy = 0;
+            var pointx = 10;
+            var pointy = 15;
+            var pieceLength = 30;                                                                            ;
+            var pieceQuantity = 20;
+            var applex = appley = 15;
+
+            var trail = [];
+            tail = 1;
+
+
+            function game() 
+            {
+                pointx += velocityx;
+                pointy += velocityy;
+                if (pointx < 0) 
+                {
+                    pointx = pieceQuantity - 1;
+                }
+                if (pointx > pieceQuantity - 1) 
+                {
+                    pointx = 0;
+                }
+                if (pointy < 0) 
+                {
+                    pointy = pieceQuantity - 1;
+                }
+                if (pointy > pieceQuantity - 1) 
+                {
+                    pointy = 0;
+                }                
+                
+                context.fillStyle = "black";
+                context.fillRect(0,0, stage.width, stage.height);
+                
+                context.fillStyle = "red";
+                context.fillRect(applex * pieceLength, appley * pieceLength, pieceLength, pieceLength);
+
+                context.fillStyle = "gray";
+                for (var i = 0; i < trail.length; i++) {
+                    context.fillRect(trail[i].x * pieceLength, trail[i].y * pieceLength, pieceLength, pieceLength);
+                    
+                    if (trail[i].x == pointx && trail[i].y == pointy)
+                    {
+                        velocityx = velocityy = 0;
+                        tail = 1;
+                    }
+                }
+
+                trail.push({ x:pointx, y:pointy })
+                while (trail.length > tail) 
+                {
+                    trail.shift();
+                }
+
+                if (applex == pointx && appley == pointy) 
+                {
+                    tail++;
+                    applex = Math.floor(Math.random() * pieceQuantity);
+                    appley = Math.floor(Math.random() * pieceQuantity);
+                }
+            }
+
+            function keyPush() 
+            {
+                switch (event.keyCode) 
+                {
+                    case 37:
+                        velocityx = -velocity;
+                        velocityy = 0
+                        break;
+                    case 38:
+                        velocityx = 0;
+                        velocityy = -velocity;
+                        break;
+                    case 39:
+                        velocityx = velocity;
+                        velocityy = 0;                        
+                        break;
+                    case 40:
+                        velocityx = 0;
+                        velocityy = velocity;
+                        break;
+                
+                    default:
+                        break;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
